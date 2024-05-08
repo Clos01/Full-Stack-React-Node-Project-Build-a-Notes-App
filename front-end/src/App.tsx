@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { useState } from "react";
 // import { title } from "process";
@@ -14,33 +14,7 @@ function App() {
 
 
 
-  const [notes, setNotes] = useState<Note[]>([
-    {
-      id: 1,
-      title: "Monday",
-      content: "11-8pm  ",
-      smmessage: "Ex: Good Job Today!",
-    },
-    {
-      id: 2,
-      title: "Tuesday",
-      content: "9-6om",
-      smmessage: "Ex: Tomorrow you will do great!",
-    },
-    {
-      id: 3,
-      title: "Wednesday",
-      content: "off lets goooo",
-      smmessage:
-        "Ex: Ayyye lets go study enjoy the day and have an amazing day!",
-    },
-    {
-      id: 4,
-      title: "Thursday",
-      content: "11-8pm",
-      smmessage: "Ex: 3 more days!",
-    },
-  ]);
+  const [notes, setNotes] = useState<Note[]>([]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -63,6 +37,23 @@ function App() {
     event.preventDefault();
 
   };
+
+useEffect(() => {
+  const fetchNotes = async () =>{
+    try{
+const response = 
+await fetch("localhost:5050/api/notes")
+const notes: Note[] = await response.json();
+setNotes(notes);
+    } catch(error){
+console.log(error);
+
+    }
+    fetchNotes()
+  }
+},[]);
+
+
 
 
   const [selectedNote, setSelectedNote] = useState< Note | null> (null);  
